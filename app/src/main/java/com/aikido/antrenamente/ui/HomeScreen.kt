@@ -28,9 +28,11 @@ import com.aikido.antrenamente.domain.Schedule
 import com.aikido.antrenamente.domain.Stats
 import com.aikido.antrenamente.domain.Status
 import com.aikido.antrenamente.domain.formatDay
+import com.aikido.antrenamente.domain.trainingCount
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.YearMonth
 
 @Composable
 fun HomeScreen(
@@ -84,8 +86,8 @@ fun HomeScreen(
         }
 
         StatsRow(
-            month = Schedule.stats(entries) { it.year == today.year && it.month == today.month },
-            year = Schedule.stats(entries) { it.year == today.year },
+            month = Schedule.monthStats(entries, YearMonth.from(today)),
+            year = Schedule.yearStats(entries, today.year),
             yearNumber = today.year,
         )
 
@@ -149,7 +151,7 @@ private fun StatCard(label: String, stats: Stats, modifier: Modifier) {
         Column(Modifier.padding(16.dp)) {
             Text(label, style = MaterialTheme.typography.labelLarge)
             Text("${stats.percent}%", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
-            Text("${stats.present} din ${stats.total} prezențe", style = MaterialTheme.typography.bodySmall)
+            Text("${stats.present} din ${trainingCount(stats.scheduled)}", style = MaterialTheme.typography.bodySmall)
         }
     }
 }

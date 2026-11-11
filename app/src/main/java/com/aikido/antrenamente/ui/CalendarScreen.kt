@@ -233,8 +233,8 @@ private fun YearSummary(
     Text("Pe luni în $year", style = MaterialTheme.typography.titleMedium)
     Column(Modifier.fillMaxWidth()) {
         (1..12).map { YearMonth.of(year, it) }.forEach { month ->
-            val stats = Schedule.stats(entries) { YearMonth.from(it) == month }
-            if (stats.total > 0 || month == YearMonth.from(today)) {
+            val stats = Schedule.monthStats(entries, month)
+            if (stats.answered > 0 || month == YearMonth.from(today)) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -242,7 +242,7 @@ private fun YearSummary(
                         .padding(vertical = 8.dp),
                 ) {
                     Text(formatMonthName(month.atDay(1)), Modifier.weight(1f))
-                    Text("${stats.present} / ${stats.total}", Modifier.padding(end = 16.dp))
+                    Text("${stats.present} / ${stats.scheduled}", Modifier.padding(end = 16.dp))
                     Text("${stats.percent}%", fontWeight = FontWeight.Medium)
                 }
             }
