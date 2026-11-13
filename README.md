@@ -2,6 +2,8 @@
 
 Aplicație Android care ține evidența prezenței la antrenamentele de aikido, în loc de un tabel Excel completat manual. În fiecare seară de antrenament, telefonul te întreabă dacă ai fost, iar răspunsul rămâne salvat într-un calendar cu statistici.
 
+Scrisă cu ajutorul AI (Claude), pornind de la cerințele autorului.
+
 ## Ce face
 
 - **Te întreabă, nu trebuie să-ți amintești tu.** După ora antrenamentului, primești o notificare cu două butoane, **Am fost** și **N-am fost**, la care răspunzi direct, fără să deschizi aplicația.
