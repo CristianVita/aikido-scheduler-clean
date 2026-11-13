@@ -72,9 +72,9 @@ Aplicația nu e pe Google Play. Se instalează din fișierul APK, descărcat din
 
 Necesită Android 8.0 sau mai nou.
 
-## Pentru cine instalează aplicația asta acum
+## Pornire curată
 
-Istoricul de prezență inclus în aplicație (`app/src/main/assets/history.json`) aparține autorului și se încarcă automat la prima instalare pe orice telefon. **Oricine instalează acest APK pornește cu istoricul autorului din 2026, nu cu unul gol.** Dacă vrei să distribui aplicația mai departe altor colegi, asta trebuie rezolvat întâi (de exemplu înlocuind fișierul cu unul gol), ca fiecare să pornească fără datele altcuiva.
+Aplicația pornește fără niciun istoric: fișierul încărcat la prima instalare (`app/src/main/assets/history.json`) e un șablon gol, cu data instalării ca început al urmăririi. Oricine o instalează pornește cu propria pagină albă, nu cu datele altcuiva, și nu va fi întrebat despre zile dinainte de instalare.
 
 ## Tehnologii folosite
 

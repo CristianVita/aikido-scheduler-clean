@@ -72,9 +72,9 @@ The app isn't on Google Play. It's installed from the APK file, downloaded from 
 
 Requires Android 8.0 or newer.
 
-## For anyone installing this app right now
+## Starting fresh
 
-The attendance history bundled with the app (`app/src/main/assets/history.json`) belongs to the author and is loaded automatically on first install, on any phone. **Anyone who installs this APK starts out with the author's 2026 history, not an empty one.** If you want to hand this app on to other dojo members, that needs to be sorted out first (for example, by replacing the file with an empty one), so everyone starts without someone else's data.
+The app starts with no attendance history: the file loaded on first install (`app/src/main/assets/history.json`) is an empty template, with today's date as the tracking start. Anyone installing it begins with their own blank slate, not anyone else's data, and won't be asked about days before they installed it.
 
 ## Technologies used
 
