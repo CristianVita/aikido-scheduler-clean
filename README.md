@@ -1,79 +1,81 @@
-# Antrenamente Aikido
+# Antrenamente Aikido — Aikido Training Tracker
 
-Aplicație Android care ține evidența prezenței la antrenamentele de aikido, în loc de un tabel Excel completat manual. În fiecare seară de antrenament, telefonul te întreabă dacă ai fost, iar răspunsul rămâne salvat într-un calendar cu statistici.
+*English · [Română](README.ro.md)*
 
-Scrisă cu ajutorul AI (Claude), pornind de la cerințele autorului.
+An Android app that tracks attendance at Aikido training, instead of a manually filled-in spreadsheet. On every training evening, the phone asks whether you went, and the answer is saved in a calendar with statistics.
 
-## Ce face
+Built with the help of AI (Claude), from the author's requirements.
 
-- **Te întreabă, nu trebuie să-ți amintești tu.** După ora antrenamentului, primești o notificare cu două butoane, **Am fost** și **N-am fost**, la care răspunzi direct, fără să deschizi aplicația.
-- **Nu uită nimic.** Dacă o zi rămâne fără răspuns, aplicația o ține minte și te întreabă din nou a doua zi, până răspunzi.
-- **Ține cont de stagii și examene**, care pot cădea în orice zi, nu doar în zilele obișnuite de antrenament.
-- **Arată un calendar colorat**, cu verde pentru prezență, roșu pentru absență, gri pentru „nu s-a ținut” și auriu pentru examene.
-- **Calculează statistici** pe lună și pe an: câte antrenamente ai făcut din câte au fost programate, trecute și viitoare.
-- **Face singură o copie de siguranță**, o dată pe săptămână, într-un fișier pe care-l alegi tu, de exemplu pe Google Drive.
+## What it does
 
-## Cum funcționează, pas cu pas
+- **It asks you, so you don't have to remember.** After training time, you get a notification with two buttons, **Attended** and **Did not attend**, which you answer directly, without opening the app.
+- **It doesn't forget anything.** If a day is left unanswered, the app keeps track and asks again the next day, until you answer.
+- **It accounts for stages and exams**, which can fall on any day, not just the usual training days.
+- **It shows a colour-coded calendar**: green for attended, red for missed, grey for "not held", and gold for exams.
+- **It calculates statistics** per month and per year: how many trainings you attended out of how many were scheduled, past and upcoming.
+- **It backs itself up**, once a week, to a file you choose, for example on Google Drive.
 
-### Programul de antrenament
+## How it works, step by step
 
-Aplicația presupune antrenamente **luni, miercuri și vineri**. Zilele astea sunt fixate în cod, nu se schimbă din aplicație; dacă dojo-ul tău are alt program, codul trebuie modificat.
+### Training schedule
 
-### Întrebarea zilnică
+The app assumes training on **Monday, Wednesday and Friday**. These days are fixed in the code and can't be changed from the app; if your dojo has a different schedule, the code needs to be changed.
 
-În fiecare zi de antrenament, la o oră pe care o alegi din Setări (implicit 21:00), aplicația verifică dacă mai există zile fără răspuns:
+### The daily question
 
-- **Ziua de azi** intră în calcul abia după ora stabilită, ca să nu fii întrebat înainte ca antrenamentul să se fi ținut.
-- **Zilele trecute**, dacă au rămas fără răspuns, apar imediat, de la cea mai veche la cea mai nouă.
-- Pentru fiecare zi deschisă primești o **notificare separată**, cu butoanele **Am fost** / **N-am fost**. Dacă răspunzi uneia, imediat apare următoarea, dacă mai e nerezolvată.
-- Poți răspunde și mai târziu, direct din aplicație: zilele rămase deschise apar pe ecranul principal.
+Every training day, at a time you choose in Settings (21:00 by default), the app checks whether any days are still unanswered:
 
-Android poate întârzia notificarea cu până la o oră, din cauza optimizărilor de baterie ale telefonului.
+- **Today** only counts after the chosen time, so you aren't asked before the training has actually happened.
+- **Past days**, if left unanswered, show up right away, oldest first.
+- Each open day gets its **own notification**, with **Attended** / **Did not attend** buttons. Answering one immediately brings up the next one, if there's still an unresolved day.
+- You can also answer later, from the app itself: days still open show up on the home screen.
 
-### Stagii și examene
+Android can delay the notification by up to an hour, because of the phone's battery optimizations.
 
-Din ecranul principal sau din calendar, poți adăuga un stagiu sau un examen pe o zi sau pe un interval de zile, cu un nume ales de tine (de exemplu „Stagiu Perpelici”). Aceste zile intră în aceeași întrebare zilnică, chiar dacă nu sunt zile obișnuite de antrenament.
+### Stages and exams
 
-### Răspunsuri posibile
+From the home screen or the calendar, you can add a stage or an exam on a single day or a range of days, with a name you choose (for example "Perpelici seminar"). These days get asked about the same way as regular training, even though they aren't a usual training day.
 
-- **Am fost** — prezență, intră în statistici.
-- **N-am fost** — absență, intră în statistici.
-- **Nu s-a ținut** — pentru zile în care antrenamentul a fost anulat sau nu te privea (de exemplu un examen al altcuiva). Nu intră în statistici.
+### Possible answers
 
-Orice răspuns se poate schimba oricând, din calendar.
+- **Attended** — counted as present in the statistics.
+- **Did not attend** — counted as absent in the statistics.
+- **Not held** — for days when training was cancelled or didn't concern you (for example, someone else's exam). Not counted in the statistics.
 
-### Calendar și statistici
+Any answer can be changed at any time, from the calendar.
 
-Calendarul arată fiecare zi colorată după răspuns. Pe ecranul principal și în calendar apar statistici de forma „x / total”:
+### Calendar and statistics
 
-- **Totalul** cuprinde toate zilele de antrenament (luni, miercuri, vineri) din perioadă, plus stagiile și examenele, **inclusiv zilele viitoare, care nu au avut loc încă**. Zilele „nu s-a ținut” nu intră în total.
-- **Procentul** se calculează doar din zilele la care ai răspuns deja, ca să rămână corect și la mijlocul lunii, fără să scadă artificial din cauza zilelor viitoare.
+The calendar shows each day coloured by its answer. The home screen and the calendar show statistics as "x / total":
 
-### Copii de siguranță
+- **The total** covers every training day (Monday, Wednesday, Friday) in the period, plus stages and exams, **including days that haven't happened yet**. Days marked "not held" are left out of the total.
+- **The percentage** is calculated only from days already answered, so it stays meaningful mid-month, instead of dropping artificially because of upcoming days.
 
-Datele stau doar pe telefon, într-o bază de date locală; aplicația nu are server și nu trimite nimic nicăieri de la sine.
+### Backups
 
-- **Copie manuală**, din Setări: salvează un fișier oricând vrei, de exemplu înainte să schimbi telefonul.
-- **Copie automată**, tot din Setări: alegi o singură dată un fișier, de obicei pe Google Drive, iar aplicația îl suprascrie o dată pe săptămână, atât timp cât telefonul are internet.
-- **Restaurare**: înlocuiește toate datele din aplicație cu cele din fișierul ales. Un fișier care nu e o copie validă e refuzat, fără să schimbe nimic.
+Data stays only on the phone, in a local database; the app has no server and doesn't send anything anywhere on its own.
 
-O copie nu salvează ora întrebării, doar datele de prezență.
+- **Manual backup**, from Settings: save a file whenever you want, for example before switching phones.
+- **Automatic backup**, also from Settings: choose a file once, usually on Google Drive, and the app overwrites it once a week, as long as the phone has internet.
+- **Restore**: replaces all data in the app with what's in the chosen file. A file that isn't a valid backup is rejected, without changing anything.
 
-## Instalare
+A backup doesn't save the question time, only the attendance data.
 
-Aplicația nu e pe Google Play. Se instalează din fișierul APK, descărcat din secțiunea **Releases** a acestui repo:
+## Installation
 
-1. Descarcă fișierul `.apk` de la ultima versiune publicată.
-2. Deschide-l pe telefon. Dacă apare un avertisment despre „surse necunoscute”, permite instalarea.
-3. La prima pornire, permite notificările, altfel întrebarea zilnică nu poate apărea.
-4. Recomandat: scoate aplicația de la optimizarea bateriei telefonului, ca notificările și copia automată să nu fie blocate.
+The app isn't on Google Play. It's installed from the APK file, downloaded from this repo's **Releases** section:
 
-Necesită Android 8.0 sau mai nou.
+1. Download the `.apk` file from the latest published release.
+2. Open it on your phone. If a warning about "unknown sources" appears, allow the install.
+3. On first launch, allow notifications, otherwise the daily question can't appear.
+4. Recommended: exclude the app from the phone's battery optimization, so notifications and the automatic backup aren't blocked.
 
-## Pentru cine instalează aplicația asta acum
+Requires Android 8.0 or newer.
 
-Istoricul de prezență inclus în aplicație (`app/src/main/assets/history.json`) aparține autorului și se încarcă automat la prima instalare pe orice telefon. **Oricine instalează acest APK pornește cu istoricul autorului din 2026, nu cu unul gol.** Dacă vrei să distribui aplicația mai departe altor colegi, asta trebuie rezolvat întâi (de exemplu înlocuind fișierul cu unul gol), ca fiecare să pornească fără datele altcuiva.
+## For anyone installing this app right now
 
-## Tehnologii folosite
+The attendance history bundled with the app (`app/src/main/assets/history.json`) belongs to the author and is loaded automatically on first install, on any phone. **Anyone who installs this APK starts out with the author's 2026 history, not an empty one.** If you want to hand this app on to other dojo members, that needs to be sorted out first (for example, by replacing the file with an empty one), so everyone starts without someone else's data.
 
-Kotlin și Jetpack Compose (Material 3), bază de date SQLite locală, notificări native Android și copii de siguranță prin selectorul de fișiere Android (fără cont Google Cloud sau server propriu).
+## Technologies used
+
+Kotlin and Jetpack Compose (Material 3), a local SQLite database, native Android notifications, and backups through the Android file picker (no Google Cloud account or own server).
