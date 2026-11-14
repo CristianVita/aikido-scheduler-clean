@@ -80,7 +80,7 @@ fun HomeScreen(
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(16.dp)) {
                     Text("Ești la zi", style = MaterialTheme.typography.titleMedium)
-                    Text("Următorul antrenament: ${formatDay(Schedule.nextTraining(today))}")
+                    Text("Următorul antrenament: ${formatDay(Schedule.nextTraining(entries, today))}")
                 }
             }
         }

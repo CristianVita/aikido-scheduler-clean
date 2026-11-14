@@ -11,7 +11,8 @@ Scrisă cu ajutorul AI (Claude), pornind de la cerințele autorului.
 - **Te întreabă, nu trebuie să-ți amintești tu.** După ora antrenamentului, primești o notificare cu două butoane, **Am fost** și **N-am fost**, la care răspunzi direct, fără să deschizi aplicația.
 - **Nu uită nimic.** Dacă o zi rămâne fără răspuns, aplicația o ține minte și te întreabă din nou a doua zi, până răspunzi.
 - **Ține cont de stagii și examene**, care pot cădea în orice zi, nu doar în zilele obișnuite de antrenament.
-- **Arată un calendar colorat**, cu verde pentru prezență, roșu pentru absență, gri pentru „nu s-a ținut” și auriu pentru examene.
+- **Stă liniștită cât ești în vacanță.** Marchezi o dată un interval de zile și nu mai ești întrebat despre ele, nici măcar mai târziu. Întrebările reîncep la următorul antrenament de după.
+- **Arată un calendar colorat**, cu verde pentru prezență, roșu pentru absență, gri pentru „nu s-a ținut”, auriu pentru examene și albastru pentru vacanță.
 - **Calculează statistici** pe lună și pe an: câte antrenamente ai făcut din câte au fost programate, trecute și viitoare.
 - **Face singură o copie de siguranță**, o dată pe săptămână, într-un fișier pe care-l alegi tu, de exemplu pe Google Drive.
 
@@ -43,6 +44,15 @@ Din ecranul principal sau din calendar, poți adăuga un stagiu sau un examen pe
 - **Nu s-a ținut** — pentru zile în care antrenamentul a fost anulat sau nu te privea (de exemplu un examen al altcuiva). Nu intră în statistici.
 
 Orice răspuns se poate schimba oricând, din calendar.
+
+### Vacanță
+
+Din ecranul principal sau din calendar, alegi **Vacanță** în loc de stagiu sau examen, și un interval de zile. Fiecare zi din interval e marcată imediat, fără să fie nevoie de un nume:
+
+- **Nicio întrebare pentru acele zile**, nici cât ești plecat, nici retroactiv după ce te-ai întors. Sunt excluse la fel ca zilele „Nu s-a ținut”.
+- **Întrebările reîncep singure** la următoarea zi de antrenament de după interval.
+- **Nu intră în statistici**, la fel ca „Nu s-a ținut”.
+- **Ștergerea** unei zile de vacanță (din calendar) șterge tot blocul contiguu de zile, nu doar ziua atinsă.
 
 ### Calendar și statistici
 

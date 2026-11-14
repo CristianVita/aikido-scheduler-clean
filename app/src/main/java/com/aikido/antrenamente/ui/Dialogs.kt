@@ -35,7 +35,26 @@ fun DayDialog(
     onAnswer: (LocalDate, Status?) -> Unit,
     onEventRemoved: (LocalDate) -> Unit,
     onEventSaved: (LocalDate, LocalDate, Kind, String) -> Unit,
+    onVacationRemoved: (LocalDate) -> Unit,
 ) {
+    if (entry?.kind == Kind.VACATION) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(formatDay(date)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("Vacanță — nu primești întrebări în această perioadă.")
+                    TextButton(onClick = {
+                        onVacationRemoved(date)
+                        onDismiss()
+                    }) { Text("Șterge vacanța") }
+                }
+            },
+            confirmButton = { TextButton(onClick = onDismiss) { Text("Gata") } },
+        )
+        return
+    }
+
     var editingEvent by remember { mutableStateOf(false) }
     if (editingEvent) {
         EventDialog(
@@ -104,15 +123,22 @@ fun EventDialog(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilterChip(kind == Kind.STAGE, { kind = Kind.STAGE }, label = { Text("Stagiu") })
                     FilterChip(kind == Kind.EXAM, { kind = Kind.EXAM }, label = { Text("Examen") })
+                    if (existing == null) {
+                        FilterChip(kind == Kind.VACATION, { kind = Kind.VACATION }, label = { Text("Vacanță") })
+                    }
                 }
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { title = it },
-                    label = { Text("Nume, de ex. Stagiu Perpelici") },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                if (kind != Kind.VACATION) {
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = { title = it },
+                        label = { Text("Nume, de ex. Stagiu Perpelici") },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                } else {
+                    Text("Nu primești întrebări zilnice în acest interval. Reîncepe automat după ultima zi.")
+                }
                 if (existing == null) {
                     DateButton("De la", from) {
                         from = it
@@ -124,7 +150,7 @@ fun EventDialog(
         },
         confirmButton = {
             TextButton(
-                enabled = title.isNotBlank(),
+                enabled = kind == Kind.VACATION || title.isNotBlank(),
                 onClick = { onSave(from, to, kind, title.trim()) },
             ) { Text("Salvează") }
         },

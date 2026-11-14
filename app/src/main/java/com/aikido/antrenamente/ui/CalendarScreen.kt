@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -58,6 +59,7 @@ fun CalendarScreen(
     onAnswer: (LocalDate, Status?) -> Unit,
     onEventRemoved: (LocalDate) -> Unit,
     onEventSaved: (LocalDate, LocalDate, Kind, String) -> Unit,
+    onVacationRemoved: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val today = now.toLocalDate()
@@ -104,6 +106,7 @@ fun CalendarScreen(
             onAnswer = onAnswer,
             onEventRemoved = onEventRemoved,
             onEventSaved = onEventSaved,
+            onVacationRemoved = onVacationRemoved,
         )
     }
 }
@@ -154,17 +157,19 @@ private fun DayCell(
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(8.dp)
+    val isVacation = entry?.kind == Kind.VACATION
     val statusColor = when (entry?.status) {
         Status.PRESENT -> PresentColor
         Status.ABSENT -> AbsentColor
-        Status.NOT_HELD -> NotHeldColor
+        Status.NOT_HELD -> if (isVacation) VacationColor else NotHeldColor
         null -> null
     }
     val isExam = entry?.kind == Kind.EXAM
+    // A training day with no answer yet: never filled, so it can't be confused with an actual
+    // "Nu s-a ținut" answer (solid grey). It only gets a thin outline, further down.
     val plannedTraining = statusColor == null && Schedule.isTrainingDay(date)
     val background = statusColor ?: when {
         isExam -> ExamColor
-        plannedTraining -> MaterialTheme.colorScheme.secondaryContainer
         else -> Color.Transparent
     }
     val markColor = when {
@@ -177,6 +182,7 @@ private fun DayCell(
         isExam && statusColor != null -> BorderStroke(3.dp, ExamColor)
         pending -> BorderStroke(2.dp, AbsentColor)
         isToday -> BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+        plannedTraining -> BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
         else -> null
     }
     Box(
@@ -207,11 +213,12 @@ private fun DayCell(
 
 @Composable
 private fun Legend() {
-    Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         LegendItem(PresentColor, "Am fost")
         LegendItem(AbsentColor, "N-am fost")
         LegendItem(NotHeldColor, "Nu s-a ținut")
         LegendItem(ExamColor, "Examen")
+        LegendItem(VacationColor, "Vacanță")
     }
 }
 

@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import com.aikido.antrenamente.data.Store
+import com.aikido.antrenamente.domain.Kind
 import com.aikido.antrenamente.domain.Status
 import com.aikido.antrenamente.reminder.Reminders
 import java.time.LocalDate
@@ -38,6 +39,7 @@ val AbsentColor = Color(0xFFD64545)
 val NotHeldColor = Color(0xFF7A7F8C)
 val ExamColor = Color(0xFFF2B01E)
 val OnExamColor = Color(0xFF1F2A44)
+val VacationColor = Color(0xFF3B82C4)
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFF1F2A44),
@@ -71,6 +73,19 @@ fun AikidoApp(resumedAt: Long) {
 
         val answer: (LocalDate, Status?) -> Unit = { date, status ->
             store.setStatus(date, status)
+            Reminders.syncActive(context)
+        }
+        val saveEvent: (LocalDate, LocalDate, Kind, String) -> Unit =
+            { from, to, kind, title ->
+                if (kind == Kind.VACATION) {
+                    store.setVacation(from, to)
+                } else {
+                    store.putEvent(from, to, kind, title)
+                }
+                Reminders.syncActive(context)
+            }
+        val removeVacation: (LocalDate) -> Unit = { date ->
+            store.removeVacation(date)
             Reminders.syncActive(context)
         }
 
@@ -108,7 +123,8 @@ fun AikidoApp(resumedAt: Long) {
                         store.removeEvent(date)
                         Reminders.syncActive(context)
                     },
-                    onEventSaved = { from, to, kind, title -> store.putEvent(from, to, kind, title) },
+                    onEventSaved = saveEvent,
+                    onVacationRemoved = removeVacation,
                     modifier = modifier,
                 )
                 Tab.Settings -> SettingsScreen(store, modifier)
@@ -120,7 +136,7 @@ fun AikidoApp(resumedAt: Long) {
                 initialDate = date,
                 onDismiss = { newEventDate = null },
                 onSave = { from, to, kind, title ->
-                    store.putEvent(from, to, kind, title)
+                    saveEvent(from, to, kind, title)
                     newEventDate = null
                 },
             )

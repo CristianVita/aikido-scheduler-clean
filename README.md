@@ -11,7 +11,8 @@ Built with the help of AI (Claude), from the author's requirements.
 - **It asks you, so you don't have to remember.** After training time, you get a notification with two buttons, **Attended** and **Did not attend**, which you answer directly, without opening the app.
 - **It doesn't forget anything.** If a day is left unanswered, the app keeps track and asks again the next day, until you answer.
 - **It accounts for stages and exams**, which can fall on any day, not just the usual training days.
-- **It shows a colour-coded calendar**: green for attended, red for missed, grey for "not held", and gold for exams.
+- **It stays quiet while you're on vacation.** Mark a date range once, and you won't be asked about any of those days — not even later. Questions pick back up on the next training day after it.
+- **It shows a colour-coded calendar**: green for attended, red for missed, grey for "not held", gold for exams, and blue for vacation.
 - **It calculates statistics** per month and per year: how many trainings you attended out of how many were scheduled, past and upcoming.
 - **It backs itself up**, once a week, to a file you choose, for example on Google Drive.
 
@@ -43,6 +44,15 @@ From the home screen or the calendar, you can add a stage or an exam on a single
 - **Not held** — for days when training was cancelled or didn't concern you (for example, someone else's exam). Not counted in the statistics.
 
 Any answer can be changed at any time, from the calendar.
+
+### Vacation
+
+From the home screen or the calendar, choose **Vacation** instead of a stage or exam, and pick a date range. Every day in that range is marked right away, with no name needed:
+
+- **No question, ever, for those days** — not while you're away, and not retroactively once you're back. They're excluded the same way "not held" days are.
+- **Training resumes asking on its own** at the next training day after the range ends.
+- **Not counted in statistics**, same as "not held".
+- **Removing it** from a day (in the calendar) clears the whole contiguous vacation block at once, not just that one day.
 
 ### Calendar and statistics
 

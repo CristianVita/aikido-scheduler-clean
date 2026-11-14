@@ -80,6 +80,38 @@ class Store private constructor(private val context: Context) :
         refresh()
     }
 
+    /**
+     * Marks every day in [from]..[to] as vacation: no question is ever asked about these days (not
+     * even later), and they don't count in statistics. Overwrites any existing answer or event on
+     * those days.
+     */
+    fun setVacation(from: LocalDate, to: LocalDate) {
+        var day = from
+        while (!day.isAfter(to)) {
+            put(Entry(day, Kind.VACATION, Status.NOT_HELD, "Vacanță"))
+            day = day.plusDays(1)
+        }
+        refresh()
+    }
+
+    /**
+     * Clears the whole vacation block that [date] belongs to (every contiguous vacation day around
+     * it), so those days can be asked about normally again.
+     */
+    fun removeVacation(date: LocalDate) {
+        if (entry(date)?.kind != Kind.VACATION) return
+        var start = date
+        while (entry(start.minusDays(1))?.kind == Kind.VACATION) start = start.minusDays(1)
+        var end = date
+        while (entry(end.plusDays(1))?.kind == Kind.VACATION) end = end.plusDays(1)
+        var day = start
+        while (!day.isAfter(end)) {
+            delete(day)
+            day = day.plusDays(1)
+        }
+        refresh()
+    }
+
     fun exportBackup(): String = BackupCodec.encode(Backup(trackingStart, entries.value))
 
     /** Sets the automatic backup file, or turns automatic backups off when null. */

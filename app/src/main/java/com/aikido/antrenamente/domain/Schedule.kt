@@ -8,7 +8,7 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-enum class Kind { TRAINING, STAGE, EXAM }
+enum class Kind { TRAINING, STAGE, EXAM, VACATION }
 
 enum class Status { PRESENT, ABSENT, NOT_HELD }
 
@@ -98,13 +98,14 @@ object Schedule {
 
     /** Stages and exams after [today], soonest first. */
     fun upcomingEvents(entries: List<Entry>, today: LocalDate): List<Entry> = entries
-        .filter { it.kind != Kind.TRAINING && it.date.isAfter(today) }
+        .filter { it.kind != Kind.TRAINING && it.kind != Kind.VACATION && it.date.isAfter(today) }
         .sortedBy { it.date }
 
-    /** The next regular training after [today]. */
-    fun nextTraining(today: LocalDate): LocalDate {
+    /** The next regular training after [today], skipping days already marked as not held (vacation included). */
+    fun nextTraining(entries: List<Entry>, today: LocalDate): LocalDate {
+        val byDate = entries.associateBy { it.date }
         var day = today.plusDays(1)
-        while (!isTrainingDay(day)) day = day.plusDays(1)
+        while (!isTrainingDay(day) || byDate[day]?.status == Status.NOT_HELD) day = day.plusDays(1)
         return day
     }
 

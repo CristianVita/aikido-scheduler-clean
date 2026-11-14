@@ -169,9 +169,44 @@ class ScheduleTest {
 
     @Test
     fun nextTrainingSkipsRestDays() {
-        assertEquals(mon, Schedule.nextTraining(fri))
-        assertEquals(fri, Schedule.nextTraining(wed))
+        assertEquals(mon, Schedule.nextTraining(emptyList(), fri))
+        assertEquals(fri, Schedule.nextTraining(emptyList(), wed))
         assertFalse(Schedule.isTrainingDay(sat))
+    }
+
+    @Test
+    fun nextTrainingSkipsDaysMarkedNotHeld() {
+        val vacationMonday = Entry(mon, Kind.VACATION, Status.NOT_HELD, "Vacanță")
+        // Monday (the vacation day) is skipped, landing on Wednesday instead.
+        assertEquals(mon.plusDays(2), Schedule.nextTraining(listOf(vacationMonday), fri))
+    }
+
+    @Test
+    fun vacationDaysAreNeverAskedAboutEvenLater() {
+        val vacation = listOf(
+            Entry(fri, Kind.VACATION, Status.NOT_HELD, "Vacanță"),
+            Entry(mon, Kind.VACATION, Status.NOT_HELD, "Vacanță"),
+        )
+        // Other unanswered training days in the window are expected to stay pending; only the
+        // vacation days themselves must never show up, whether checked right away or much later.
+        assertTrue(pendingDays(vacation, mon).none { it == fri || it == mon })
+        assertTrue(pendingDays(vacation, mon.plusDays(14)).none { it == fri || it == mon })
+    }
+
+    @Test
+    fun vacationIsExcludedFromStatsAndUpcomingEvents() {
+        val feb = YearMonth.of(2026, 2) // 12 Mondays, Wednesdays and Fridays
+        val entries = listOf(
+            Entry(feb.atDay(2), Kind.TRAINING, Status.PRESENT, null),
+            Entry(feb.atDay(4), Kind.VACATION, Status.NOT_HELD, "Vacanță"),
+            Entry(feb.atDay(6), Kind.VACATION, Status.NOT_HELD, "Vacanță"),
+        )
+        val stats = Schedule.monthStats(entries, feb)
+        assertEquals(10, stats.scheduled) // 12 sessions minus the two vacation days
+        assertEquals(1, stats.present)
+
+        val upcoming = Schedule.upcomingEvents(entries, feb.atDay(1))
+        assertTrue(upcoming.none { it.kind == Kind.VACATION })
     }
 
     @Test
